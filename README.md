@@ -1,24 +1,61 @@
-# README
+# テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Usersテーブル
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
+| profile            | text   | null: false               |
 
-Things you may want to cover:
+### Association
+- has_many :posts
+- has_many :favorites
 
-* Ruby version
+## Favoriteテーブル
+| Column   | Type       | Options           |
+| -------- | ---------- | ----------------- |
+| user     | references | foreign_key: true |
+| post     | references | foreign_key: true |
 
-* System dependencies
 
-* Configuration
+### Association
+- belongs_to :user
+- belongs_to :post
 
-* Database creation
+## Postsテーブル
+| Column    | Type      | Options           |
+| --------- | --------- | ----------------- |
+| image     | text      | null: false       |
+| text      | text      |                   |
+| place_id  | integer   | null: false       |
+| toilet_id | integer   | null: false       |
+| fire_id   | integer   | null: false       |
+| river_id  | integer   | null: false       |
+| gomi_id   | integer   | null: false       |
+| water_id  | integer   | null: false       |
+| price     | string    | null: false       |
+| user      | reference | foreign_key: true |
 
-* Database initialization
+### Association
+- belongs_to :user
+- has_many :favorites
+- has_many :post_tags
 
-* How to run the test suite
+## Post_tagテーブル
+| Column   | Type       | Options           |
+| -------- | ---------- | ----------------- |
+| post     | references | foreign_key: true |
+| tags     | references | foreign_key: true |
 
-* Services (job queues, cache servers, search engines, etc.)
+### Association
+- belongs_to :post
+- belongs_to :tag
 
-* Deployment instructions
+## Tagsテーブル
+| Column | Type   | Options |
+| ------ | ------ | ------- |
+| name   | string |         |
 
-* ...
+### Association
+- has_many :post_tags
