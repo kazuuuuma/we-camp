@@ -3,6 +3,7 @@ class CreatePosts < ActiveRecord::Migration[6.0]
     create_table :posts do |t|
 
       t.timestamps
+      t.string :campsite,  null: false
       t.text :text
       t.integer :place_id, null: false
       t.integer :toilet_id,null: false

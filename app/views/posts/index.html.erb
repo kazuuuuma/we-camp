@@ -10,15 +10,15 @@
     <% @posts.each do |post| %>
     <li class='list'>
       <%= link_to post_path(post.id), method: :get do %>
-      <div class='post-place'>
-        <%= post.place %>
+      <div class='post-campsite'>
+        <%= post.campsite %>
       </div>
       <div class='post-img-content'>
         <%= image_tag post.image, class: "post-img" %>
       </div>
       <div class='post-info'>
         <div class='user_name'>
-          <%= post.nickname %>
+          <%= post.user.nickname %>
         </div>
         <div class='post_text'>
           <%= post.text %>

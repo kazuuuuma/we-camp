@@ -60,4 +60,8 @@ class PostsController < ApplicationController
       redirect_to root_path
     end
   end
+
+  def post_params
+    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image).merge(user_id: current_user.id)
+  end
 end

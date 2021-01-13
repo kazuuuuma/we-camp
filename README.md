@@ -29,6 +29,7 @@
 | Column    | Type      | Options           |
 | --------- | --------- | ----------------- |
 | image     | text      | null: false       |
+| campsite | string    | null: false       |
 | text      | text      |                   |
 | place_id  | integer   | null: false       |
 | toilet_id | integer   | null: false       |
