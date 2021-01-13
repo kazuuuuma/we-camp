@@ -8,6 +8,7 @@ class Post < ApplicationRecord
   belongs_to :water
 
   with_options presence: true do
+    validates :image
     validates :text
     validates :place_id
     validates :toilet_id
@@ -31,5 +32,5 @@ class Post < ApplicationRecord
 
   belongs_to :user
   has_many :favorites
-　has_many :post_tags
+  has_many :post_tags
 end
