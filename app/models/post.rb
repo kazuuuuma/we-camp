@@ -28,6 +28,15 @@ class Post < ApplicationRecord
     validates :water_id
   end
 
+  def self.search(search)
+    if search != ""
+      Post.where('text LIKE(?)', "%#{search}%").
+        or(where('campsite LIKE(?)', "%#{search}%"))
+    else
+      Post.all
+    end
+  end
+
   has_one_attached :image
 
   belongs_to :user

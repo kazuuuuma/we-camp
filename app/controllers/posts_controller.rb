@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :move_to_sing_in, except: [:index]
+  before_action :move_to_sing_in, except: [:index, :show, :search]
   before_action :move_to_index, only: [:edit]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
