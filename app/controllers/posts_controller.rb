@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :move_to_sing_in, except: [:index]
   before_action :move_to_index, only: [:edit]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
     @posts = Post.includes(:user).order("created_at DESC")
@@ -63,5 +64,9 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image).merge(user_id: current_user.id)
+  end
+
+  def set_post
+    @post = Post.find(params[:id])
   end
 end
