@@ -1,0 +1,64 @@
+<%= render "shared/header" %>
+
+<%# 投稿の概要 %>
+<div class="post-show">
+  <h4><%= "<< BACK" %></h4>
+  <div class="post-box">
+    <h2 class="name">
+      <%= @post.campsite %>
+    </h2>
+    <div class='post-img-content'>
+      <%= image_tag @post.image ,class:"post-box-img" %>
+    </div>
+    <div class="post-user-box">
+      <span class="post-nickname">
+        <%= @post.user.nickname %>
+      </span>
+    </div>
+    <div class="post-explain-box">
+      <span><%= @post.text %></span>
+    </div>
+
+    <table class="detail-table">
+      <tbody>
+        <tr>
+          <th class="detail-post">場所</th>
+          <td class="detail-value"><%= @post.place.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">トイレ</th>
+          <td class="detail-value"><%= @post.toilet.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">水道</th>
+          <td class="detail-value"><%= @post.water.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">ゴミ</th>
+          <td class="detail-value"><%= @post.gomi.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">たき火</th>
+          <td class="detail-value"><%= @post.fire.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">立地</th>
+          <td class="detail-value"><%= @post.river.name %></td>
+        </tr>
+        <tr>
+          <th class="detail-post">サイト料</th>
+          <td class="detail-value"><%= @post.price%></td>
+        </tr>
+      </tbody>
+    </table>
+        <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
+    <% if user_signed_in? && current_user.id == @post.user_id %>
+      <%= link_to '商品の編集', edit_post_path, method: :get, class: "item-red-btn" %>
+      <p class='or-text'>or</p>
+      <%= link_to '削除', post_path, method: :delete, class:'item-destroy' %>
+    <% elsif user_signed_in? %>
+      <%#= link_to 'お気に入り', item_orders_path(@item.id), method: :get, class:"item-red-btn"%>
+    <% end %>
+  </div>
+</div>
+<%= render "shared/footer" %>

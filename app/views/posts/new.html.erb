@@ -1,0 +1,78 @@
+<%= render "shared/header" %>
+<%# 投稿情報%>
+</header>
+  <div class="new-post-main">
+    <h2 class="new-post-title">NEW POST</h2>
+    <%= form_with(model: @post, local: true) do |f| %>
+      <%#= render 'shared/error_messages', model: f.object %>
+      <%# 投稿画像 %>
+      <div class="img-upload">
+        <div class="weight-bold-text">
+          Picture
+          <span class="indispensable">必須</span>
+        </div>
+        <div class="click-upload">
+          <p>
+            クリックしてファイルをアップロード
+          </p>
+          <%= f.file_field :image, id:"post-image" %>
+        </div>
+      </div>
+      <%# 投稿情報 %>
+      <div class="new-post-detail">
+        <div class="weight-bold-text">
+          キャンプ場名
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.text_area :campsite, class:"post-text", id:"campsite", placeholder:"キャンプ場名（必須 40文字まで)", maxlength:"40" %>
+      <div class="post-explain">
+        <div class="weight-bold-text">
+          コメント
+        </div>
+        <%= f.text_area :text, class:"post-text", id:"post-info", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
+      </div>
+      <div class="weight-bold-text">
+        場所
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:place_id, Place.all, :id, :name, {}, {class:"select-box", id:"post-place"}) %>
+      <div class="weight-bold-text">
+        トイレ
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:toilet_id, Toilet.all, :id, :name, {}, {class:"select-box", id:"post-toilet"}) %>
+      <div class="weight-bold-text">
+        水道
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:water_id, Water.all, :id, :name, {}, {class:"select-box", id:"post-water"}) %>
+      <div class="weight-bold-text">
+        火
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:fire_id, Fire.all, :id, :name, {}, {class:"select-box", id:"post-fire"}) %>
+      <div class="weight-bold-text">
+        ごみ
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:gomi_id, Gomi.all, :id, :name, {}, {class:"select-box", id:"post-gomi"}) %>
+      <div class="weight-bold-text">
+        立地
+        <span class="indispensable">必須</span>
+      </div>
+      <%= f.collection_select(:river_id, River.all, :id, :name, {}, {class:"select-box", id:"post-river"}) %>
+      <div class="price-text">
+        サイト料
+        <span class="indispensable">必須</span>
+      </div>
+      <span class="sell-yen">¥</span>
+      <%= f.text_field :price, class:"price-input", id:"post-price", placeholder:"例）1000" %>
+      <div class="sell-btn-contents">
+        <%= f.submit "POST" ,class:"sell-btn" %>
+        <%=link_to 'もどる', root_path, class:"back-btn" %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</header>
+<%= render "shared/footer" %>
