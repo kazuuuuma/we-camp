@@ -2,7 +2,7 @@
 
 <%# 投稿の概要 %>
 <div class="post-show">
-  <h4><%= "<< BACK" %></h4>
+  <h4><%= link_to "<< BACK", :back, class: "back_bottun" %></h4>
   <div class="post-box">
     <h2 class="name">
       <%= @post.campsite %>
