@@ -6,6 +6,11 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
   end
 
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts
+  end
+
   private
 
   def user_params
