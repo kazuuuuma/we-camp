@@ -4,10 +4,10 @@
   <%= form.text_field :keyword, placeholder: "検索", class: "search-input" %>
   <%= form.submit "検索", class: "search-btn" %>
 <% end %>
-<%# /商品一覧 %>
+<%# お気に入り一覧%>
 <div class='post-contents'>
   <ul class='post-lists'>
-    <% @posts.each do |post| %>
+    <% @favorite_posts.each do |post| %>
     <li class='list'>
       <div class='post-campsite'>
         <%= link_to post.campsite, "#", method: :get %>
@@ -19,9 +19,6 @@
       <div class='post-info'>
         <div class='user_name'>
           <%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %>
-        </div>
-        <div id="favo_buttons_<%= post.id %>">
-          <%= render partial: 'favorites/favorite', locals: { post: post} %>
         </div>
         <div class='post_text'>
           <%= post.text %>
@@ -35,5 +32,4 @@
     <% end %>
   </ul>
 </div>
-
 <%= render "shared/footer" %>

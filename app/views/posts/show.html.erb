@@ -15,6 +15,9 @@
         <%= @post.user.nickname %>
       </span>
     </div>
+    <div id="favo_buttons_<%= post.id %>">
+      <%= render partial: 'favorites/favorite', locals: { post: post} %>
+    </div>
     <div class="post-explain-box">
       <span><%= @post.text %></span>
     </div>
@@ -56,8 +59,6 @@
       <%= link_to '商品の編集', edit_post_path, method: :get, class: "item-red-btn" %>
       <p class='or-text'>or</p>
       <%= link_to '削除', post_path, method: :delete, class:'item-destroy' %>
-    <% elsif user_signed_in? %>
-      <%#= link_to 'お気に入り', item_orders_path(@item.id), method: :get, class:"item-red-btn"%>
     <% end %>
   </div>
 </div>
