@@ -13,6 +13,7 @@
 ### Association
 - has_many :posts
 - has_many :favorites
+- has_many :reviews
 
 ## Favoriteテーブル
 | Column   | Type       | Options           |
@@ -29,7 +30,7 @@
 | Column    | Type      | Options           |
 | --------- | --------- | ----------------- |
 | image     | text      | null: false       |
-| campsite | string    | null: false       |
+| campsite  | string    | null: false       |
 | text      | text      |                   |
 | place_id  | integer   | null: false       |
 | toilet_id | integer   | null: false       |
@@ -44,6 +45,7 @@
 - belongs_to :user
 - has_many :favorites
 - has_many :post_tags
+- has_many :reviews
 
 ## Post_tagテーブル
 | Column   | Type       | Options           |
@@ -62,3 +64,16 @@
 
 ### Association
 - has_many :post_tags
+
+## Reviewsテーブル
+| Column    | Type       | Options           |
+| --------- | ---------- | ----------------- |
+| comment   | string     | null: false       |
+| image     | text       |                   |
+| visit_day | string     |                   |
+| user      | references | foreign_key: true |
+| post      | references | foreign_key: true |
+
+### Association
+- belongs_to :user
+- belongs_to :post
