@@ -19,4 +19,8 @@ class User < ApplicationRecord
   has_many :posts
   has_many :favorites, dependent: :destroy
   has_many :favorite_posts, through: :favorites, source: :post
+
+  def favorite(post)
+    favorites_posts << post
+  end
 end

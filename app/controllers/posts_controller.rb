@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.includes(:user).order("created_at DESC")
+    @posts = Post.includes([:user, :favorites]).order("created_at DESC")
   end
 
   def new
@@ -46,6 +46,11 @@ class PostsController < ApplicationController
 
   def search
     @posts = Post.search(params[:keyword])
+  end
+
+  def favorites
+    @favorite = Favorite.find(params[:id])
+    @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
   end
 
   private
