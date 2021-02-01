@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     collection do
       get 'search'
     end
-    resources :favorites
+    resources :favorites, only: [:create, :destroy]
+    collection do
+      get :favorites
+    end
   end
 end

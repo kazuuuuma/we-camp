@@ -3,7 +3,8 @@ class FavoritesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    favorite_posts = Favorite.where(user_id: current_user.id).order(created_at: :desc).pluck(:post_id)
+    #@favorite = Favorite.find_by(user_id: current_user.id, post_id: @post.id)
+    favorite_posts = Favorite.where(user_id: current_user.id).order(created_at: :desc)
     @favorite_posts = favorite_posts
   end
 
@@ -15,7 +16,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    @favorite = Favorite.find_by(user_id: currrent_user.id, post_id: @post.id)
+    @favorite = Favorite.find_by(user_id: current_user.id, post_id: @post.id)
     @favorite.destroy
   end
 

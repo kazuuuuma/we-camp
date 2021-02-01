@@ -15,8 +15,8 @@
         <%= @post.user.nickname %>
       </span>
     </div>
-    <div id="favo_buttons_<%= post.id %>">
-      <%= render partial: 'favorites/favorite', locals: { post: post} %>
+    <div id="favo_buttons_<%= @post.id %>">
+      <%= render partial: 'favorites/favorite', locals: { post: @post} %>
     </div>
     <div class="post-explain-box">
       <span><%= @post.text %></span>

@@ -4,25 +4,30 @@
   <%= form.text_field :keyword, placeholder: "検索", class: "search-input" %>
   <%= form.submit "検索", class: "search-btn" %>
 <% end %>
-<%# お気に入り一覧%>
 <h4><%= link_to "<< BACK", :back, class: "back_bottun" %></h4>
+<h2>お気に入り一覧<h2>
+<%# /お気に入り一覧 %>
 <div class='post-contents'>
   <ul class='post-lists'>
-    <% @favorite_posts.each do |favorite| %>
+  <%# if user_signed_in? && current_user.id == @favorite_posts.user_id %>
+    <% @favorite_posts.each do |post| %>
     <li class='list'>
       <div class='post-campsite'>
-        <%= link_to favorite.campsite, "#", method: :get %>
+        <%= link_to post.campsite, "#", method: :get %>
       </div>
       <%= link_to post_path(post.id), method: :get do %>
       <div class='post-img-content'>
-        <%= image_tag favorite_posts.image, class: "post-img" %>
+        <%= image_tag post.image, class: "post-img" %>
       </div>
       <div class='post-info'>
         <div class='user_name'>
-          <%= link_to favorite_posts.user.nickname, "/users/#{post.user_id}", method: :get %>
+          <%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %>
+        </div>
+        <div id="favo_buttons_<%= post.id %>">
+          <%= render partial: 'favorites/favorite', locals: { post: post} %>
         </div>
         <div class='post_text'>
-          <%= favorite_posts.text %>
+          <%= post.text %>
         </div>
         <div class='post_tag'>
           <%#=　"タグ"　%>
@@ -31,6 +36,8 @@
       <% end %>
     </li>
     <% end %>
+  <%# end %>
   </ul>
 </div>
+
 <%= render "shared/footer" %>
