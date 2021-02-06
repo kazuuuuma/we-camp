@@ -2,7 +2,7 @@
 
 <%# 投稿の概要 %>
 <div class="post-show">
-  <h4><%= link_to "<< BACK", :back, class: "back_bottun" %></h4>
+  <h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
   <div class="post-box">
     <h2 class="name">
       <%= @post.campsite %>
@@ -12,11 +12,46 @@
     </div>
     <div class="post-user-box">
       <span class="post-nickname">
-        <%= @post.user.nickname %>
+        <%= link_to @post.user.nickname, "/users/#{@post.user_id}", method: :get %>
       </span>
     </div>
     <div id="favo_buttons_<%= @post.id %>">
       <%= render partial: 'favorites/favorite', locals: { post: @post} %>
+    </div>
+    <div class="review" id="review-pull-down">
+      Review
+    </div>
+    <div class="review-form hidden" id="pull-down">
+      <%= form_with(model: [@post,@review], local: true) do |f| %>
+        <div class="date-explain">
+          <div class="weight-bold-text">
+            訪問日
+          </div>
+          <div class="input-date">
+            <%= f.date_field :visit_day, id:"date-info" %>
+          </div>
+        </div>
+        <div class="review-explain">
+          <div class="weight-bold-text">
+            コメント
+          </div>
+          <%= f.text_area :comment, class:"review-text", id:"review-info", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
+        </div>
+        <div class="img-upload">
+          <div class="weight-bold-text">
+            Picture
+          </div>
+          <div class="click-upload">
+            <p>
+              クリックしてファイルをアップロード
+            </p>
+            <%= f.file_field :image, id:"post-image" %>
+          </div>
+        </div>
+        <div class="sell-btn-contents">
+          <%= f.submit "Review" ,class:"sell-btn" %>
+        </div>
+      <% end %>
     </div>
     <div class="post-explain-box">
       <span><%= @post.text %></span>
@@ -54,12 +89,29 @@
         </tr>
       </tbody>
     </table>
-        <%# ログインしているユーザーと出品しているユーザーが、同一人物の場合と同一人物ではない場合で、処理を分けましょう %>
     <% if user_signed_in? && current_user.id == @post.user_id %>
-      <%= link_to '商品の編集', edit_post_path, method: :get, class: "item-red-btn" %>
+      <%= link_to '編集', edit_post_path, method: :get, class: "item-red-btn" %>
       <p class='or-text'>or</p>
       <%= link_to '削除', post_path, method: :delete, class:'item-destroy' %>
     <% end %>
+    <h3 class = "review" >みんなのキャン活</h3>
+    <ul class = "review-lists" >
+      <% @reviews.each do |review| %>
+        <li class = "review-list" >
+          <P><%= link_to review.user.nickname, "/users/#{review.user_id}", method: :get %></P>
+          <p><%= review.visit_day %></P>
+          <p><%= review.comment %></p>
+        </li>
+      <% end %>
+    </ul>
+    <h3 class = "review">写真情報</h3>
+    <ul class = "review-pics" >
+      <% @reviews.each do |review| %>
+        <li class = "review-pic" >
+        <%= review.image %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
 <%= render "shared/footer" %>
