@@ -12,12 +12,15 @@ class User < ApplicationRecord
     validates :firstname
     validates :profile
   end
+  
   with_options format: {with: /\A[ぁ-んァ-ン一-龥]/} do
     validates :familyname
     validates :firstname
   end
+
   has_many :posts
   has_many :favorites, dependent: :destroy
+  has_many :comments
   has_many :favorite_posts, through: :favorites, source: :post
 
   def favorite(post)

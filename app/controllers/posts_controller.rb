@@ -21,7 +21,8 @@ class PostsController < ApplicationController
   end
 
   def show
-    
+    @review = Review.new
+    @reviews = @post.reviews.includes(:user)
   end
 
   def edit
