@@ -17,4 +17,7 @@ Rails.application.routes.draw do
     resources :reviews, only: :create
   end
   get 'posts/:id', to: 'review#create' 
+  get 'posts/;id', to: 'favorites#create'
+  get 'posts/:id', to: 'favorites#create'
+  get 'posts/:id', to: 'favorites#create'
 end

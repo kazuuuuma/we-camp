@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_135728) do
     t.integer "water_id", null: false
     t.string "price", null: false
     t.bigint "user_id"
+    t.integer "favorite_count", default: 0, null: false
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 

@@ -5,7 +5,7 @@
   <%= form.submit "検索", class: "search-btn" %>
 <% end %>
 <%# お気に入り一覧%>
-<h4><%= link_to "<< BACK", :back, class: "back_bottun" %></h4>
+<h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
 <div class='post-contents'>
   <ul class='post-lists'>
     <% @favorite_posts.each do |favorite| %>

@@ -13,6 +13,7 @@ class CreatePosts < ActiveRecord::Migration[6.0]
       t.integer :water_id, null: false
       t.string :price,     null: false
       t.references :user,  foreign_key: true
+      t.integer :favorite_count, null: false, default: 0
     end
   end
 end
