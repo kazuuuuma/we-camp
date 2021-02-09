@@ -64,5 +64,6 @@ end
 gem 'mini_magick'
 gem 'image_processing', '~> 1.2'
 gem 'active_hash'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 gem 'counter_culture', '~> 1.8'
