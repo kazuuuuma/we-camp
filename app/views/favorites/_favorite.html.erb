@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-  <% if @post.user_id != current_user.id %>
+  <% if current_user.id != post.user_id %>
     <span class="favorite">
     <% if post.favorite?(current_user) %>
       <%= form_for(post.favorites.find_by(user_id: current_user.id), method: :destroy, remote: true) do |f| %>

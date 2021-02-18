@@ -4,36 +4,37 @@
   <%= form.text_field :keyword, placeholder: "検索", class: "search-input" %>
   <%= form.submit "検索", class: "search-btn" %>
 <% end %>
-<%# /商品一覧 %>
-<div class='post-contents'>
-  <ul class='post-lists'>
-    <% @posts.each do |post| %>
-    <li class='list'>
-      <div class='post-campsite'>
-        <%= link_to post.campsite, "#", method: :get %>
+<%# /投稿一覧 %>
+
+<div class="row">
+  <% @posts.each do |post| %>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">
+            <%= link_to post.campsite, "#", method: :get %>
+          </h4>
+        </div>
+        <%= link_to post_path(post.id), method: :get do %>
+          <%= image_tag post.image, class: "img-fluid" %>
+        <% end %>
+        <div class="card-body">
+          <p class="card-subtitle">
+            <%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %>
+          </p>
+          <div id="favo_buttons_<%= post.id %>" class="btn btn-primary">
+            <%= render partial: 'favorites/favorite', locals:{ post: post } %>
+          </div>
+          <p class="card-text">
+            <%= post.text %>
+          </p>
+        </div>
       </div>
-      <%= link_to post_path(post.id), method: :get do %>
-      <div class='post-img-content'>
-        <%= image_tag post.image, class: "post-img" %>
-      </div>
-      <div class='post-info'>
-        <div class='user_name'>
-          <%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %>
-        </div>
-        <div id="favo_buttons_<%= post.id %>">
-          <%= render partial: 'favorites/favorite', locals: { post: post} %>
-        </div>
-        <div class='post_text'>
-          <%= post.text %>
-        </div>
-        <div class='post_tag'>
-          <%#=　"タグ"　%>
-        </div>
-      </div>
-      <% end %>
-    </li>
-    <% end %>
-  </ul>
+    </div>
+  <% end%>
 </div>
+
+
+
 
 <%= render "shared/footer" %>
