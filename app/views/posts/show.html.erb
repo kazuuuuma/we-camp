@@ -18,40 +18,39 @@
     <div id="favo_buttons_<%= @post.id %>">
       <%= render partial: 'favorites/favorite', locals: { post: @post} %>
     </div>
-    <div class="review" id="review-pull-down">
-      Review
-    </div>
-    <div class="review-form hidden" id="pull-down">
-      <%= form_with(model: [@post,@review], local: true) do |f| %>
-        <div class="date-explain">
-          <div class="weight-bold-text">
-            訪問日
+    
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">レビュー</button>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" rola=dialog aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="model-header">
+            <h5 class="modal-title" id="exampleModalLabel">レビュー投稿</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="input-date">
-            <%= f.date_field :visit_day, id:"date-info" %>
+          <div class="modal-body">
+            <%= form_with(model: [@post,@review], local: true) do |f| %>
+            <div class="form-group">
+              <label for="formGroupleInput">訪問日</label>
+              <%= f.date_field :visit_day, id:"date-info" %>
+            </div>
+            <div class="form-group">
+              <label for="formGroupleInput">コメント</label>
+              <%= f.text_area :comment, class:"form-control", id:"formGroupExampleInput", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
+            </div>
+            <div class="form-group">
+              <label for="formGroupleInput">写真</label>
+              <%= f.file_field :image, id:"post-image" %>
+            </div>
           </div>
+          <div class="modeal-footer actions">
+            <%= f.submit "投稿", class:"btn btn-primary justtify-content-end" %>
+          </div>
+          <% end %>
         </div>
-        <div class="review-explain">
-          <div class="weight-bold-text">
-            コメント
-          </div>
-          <%= f.text_area :comment, class:"review-text", id:"review-info", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
-        </div>
-        <div class="img-upload">
-          <div class="weight-bold-text">
-            Picture
-          </div>
-          <div class="click-upload">
-            <p>
-              クリックしてファイルをアップロード
-            </p>
-            <%= f.file_field :image, id:"post-image" %>
-          </div>
-        </div>
-        <div class="sell-btn-contents">
-          <%= f.submit "Review" ,class:"sell-btn" %>
-        </div>
-      <% end %>
+      </div>
     </div>
     <div class="post-explain-box">
       <span><%= @post.text %></span>
@@ -107,8 +106,8 @@
     <h3 class = "review">写真情報</h3>
     <ul class = "review-pics" >
       <% @reviews.each do |review| %>
-        <li class = "review-pic" >
-        <%= review.image %>
+        <li class = "img-fluid" >
+          <%= review.image %>
         </li>
       <% end %>
     </ul>

@@ -10,19 +10,32 @@ class FavoritesController < ApplicationController
 
   def create
     if @post.user_id != current_user.id
-      @favorite = Favorite.create(user_id: current_user.id, post_id: @post.id)
-      @favorite.save
+      @post.favorite(current_user)
+      @post.reload
+      respond_to do |format|
+        format.html { redirect_to request.referrer || root_url }
+        format.js
+      end
     end
+    #item = Favorite.find(params[:id])
+    #render json: { favorite: item }
   end
 
   def destroy
-    @favorite = Favorite.find_by(user_id: current_user.id, post_id: @post.id)
-    @favorite.destroy
+    @post = Favorite.find(params[:id]).post
+    if @post.user_id != current_user.id
+      @post.unfavorite(current_user)
+      @post.reload
+      respond_to do |format|
+        format.html { redirect_to request.referrer || root_url }
+        format.js
+      end
+    end
   end
 
   private
 
   def set_post
-    @post = Post.find(params[:post_id])
+    @post = Post.find(params[:id])
   end
 end

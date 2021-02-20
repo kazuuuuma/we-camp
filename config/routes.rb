@@ -14,7 +14,8 @@ Rails.application.routes.draw do
     collection do
       get :favorites
     end
-    resources :reviews, only: :create
+    resources :reviews, only: [:create, :destroy]
   end
   get 'posts/:id', to: 'review#create' 
+  get 'posts/;id', to: 'favorites#create'
 end

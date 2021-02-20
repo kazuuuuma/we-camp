@@ -5,6 +5,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.includes([:user, :favorites]).order("created_at DESC")
+    #@post = Post.find(params[:id])
   end
 
   def new

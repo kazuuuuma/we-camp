@@ -8,8 +8,11 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require ("../reviews")
+require ("../favorites")
 require ('jquery')
 require ('jquery_ujs')
+require ('popper')
+require ('bootstrap')
 
 
 

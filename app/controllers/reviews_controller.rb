@@ -8,6 +8,15 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def destroy
+    @review = Review.find(params[:id])
+    if @review.destroy
+      render posts: 'show'
+    else
+      render :show
+    end
+  end
+
   private
 
   def review_params
