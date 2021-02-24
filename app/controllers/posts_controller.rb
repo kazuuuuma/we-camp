@@ -5,7 +5,6 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.includes([:user, :favorites]).order("created_at DESC")
-    #@post = Post.find(params[:id])
   end
 
   def new
@@ -51,7 +50,7 @@ class PostsController < ApplicationController
   end
 
   def favorites
-    @favorite = Favorite.find(params[:id])
+    #@favorite = Favorite.find(params[:id])
     @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
   end
 
@@ -70,7 +69,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image).merge(user_id: current_user.id)
+    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image, :favorite_count).merge(user_id: current_user.id)
   end
 
   def set_post

@@ -37,19 +37,27 @@ class Post < ApplicationRecord
     end
   end
 
-  def favorite(user)
-    favorites.create(user_id: user.id)
+  #def favorite(user)
+    #favorites.create(user_id: user.id)
+  #end
+
+  #def unfavorite(user)
+  #  favorites.find_by(user_id: user.id).destroy
+  #end
+
+  def favorited_by?(user)
+    favorites.where(user_id: user.id).exists?
   end
 
-  def unfavorite(user)
-    favorites.find_by(user_id: user.id).destroy
+  def favorite_of(user)
+    favorite = favorites.find_by(user_id: user.id)
   end
 
   has_one_attached :image
 
   belongs_to :user
   has_many :favorites, dependent: :destroy
-  has_many :favorite_users, through: :favorites, source: :user
+  has_many :favorite_posts, through: :favorites, source: :post
   has_many :reviews
   has_many :post_tags
 end

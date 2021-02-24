@@ -6,9 +6,11 @@
         <li class="nav-item">
           <p class="nav-link" ><%= link_to "TOP", root_path %></p>
         </li>
+        <% if user_signed_in? %>
         <li class="nav-item">
           <p class="nav-link"><%= link_to "マイページ", "/users/#{current_user.id}" %></p>
         </li>
+        <% end %>
       </ul>
     </div>
   </div>
