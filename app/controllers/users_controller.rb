@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @posts = @user.posts
 
-    @favorite_posts = @user.favorites_posts
+    @favorite_posts = @user.favorite_posts
   end
 
   private

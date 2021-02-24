@@ -18,7 +18,7 @@ class User < ApplicationRecord
     validates :firstname
   end
 
-  has_many :posts, through: :favorites
+  has_many :posts
   has_many :favorites, dependent: :destroy
   has_many :comments
   has_many :favorite_posts, through: :favorites, source: :post
