@@ -3,39 +3,26 @@ class FavoritesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    #@favorite = Favorite.find_by(user_id: current_user.id, post_id: @post.id)
-    favorite_posts = Favorite.where(user_id: current_user.id).order(created_at: :desc)
-    @favorite_posts = favorite_posts
+    favorites = Favorite.where(user_id: current_user.id).pluck(:post_id)
+    @favorite_posts = Post.find(favorites)  
   end
 
   def create
     if @post.user_id != current_user.id
-      @post.favorite(current_user)
-      @post.reload
-      respond_to do |format|
-        format.html { redirect_to request.referrer || root_url }
-        format.js
-      end
+      favorite = current_user.favorites.build(post_id: params[:post_id])
+      favorite.save
     end
-    #item = Favorite.find(params[:id])
-    #render json: { favorite: item }
   end
 
   def destroy
-    @post = Favorite.find(params[:id]).post
-    if @post.user_id != current_user.id
-      @post.unfavorite(current_user)
-      @post.reload
-      respond_to do |format|
-        format.html { redirect_to request.referrer || root_url }
-        format.js
-      end
-    end
+    #@favorite = Favorite.find(params[:id])
+    @favorite = Favorite.find_by(id: params[:id], user_id: current_user.id, post_id: params[:post_id])
+    @favorite.destroy
   end
 
   private
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find(params[:post_id])
   end
 end

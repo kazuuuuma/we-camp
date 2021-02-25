@@ -1,116 +1,120 @@
 <%= render "shared/header" %>
 
 <%# 投稿の概要 %>
-<div class="post-show">
-  <h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
-  <div class="post-box">
-    <h2 class="name">
-      <%= @post.campsite %>
-    </h2>
-    <div class='post-img-content'>
-      <%= image_tag @post.image ,class:"post-box-img" %>
-    </div>
-    <div class="post-user-box">
-      <span class="post-nickname">
-        <%= link_to @post.user.nickname, "/users/#{@post.user_id}", method: :get %>
-      </span>
-    </div>
-    <div id="favo_buttons_<%= @post.id %>">
-      <%= render partial: 'favorites/favorite', locals: { post: @post} %>
-    </div>
-    
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">レビュー</button>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" rola=dialog aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="model-header">
-            <h5 class="modal-title" id="exampleModalLabel">レビュー投稿</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <%= form_with(model: [@post,@review], local: true) do |f| %>
-            <div class="form-group">
-              <label for="formGroupleInput">訪問日</label>
-              <%= f.date_field :visit_day, id:"date-info" %>
-            </div>
-            <div class="form-group">
-              <label for="formGroupleInput">コメント</label>
-              <%= f.text_area :comment, class:"form-control", id:"formGroupExampleInput", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
-            </div>
-            <div class="form-group">
-              <label for="formGroupleInput">写真</label>
-              <%= f.file_field :image, id:"post-image" %>
-            </div>
-          </div>
-          <div class="modeal-footer actions">
-            <%= f.submit "投稿", class:"btn btn-primary justtify-content-end" %>
-          </div>
-          <% end %>
+<h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
+<div class="container">
+  <div class="col-8 center">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title"><%= @post.campsite %></h3>
+      </div>
+        <%= image_tag @post.image ,class:"img-fluid" %>
+      <div class="card-body">
+        <h4 class="card-title"><%= link_to @post.user.nickname, "/users/#{@post.user_id}", method: :get %></h4>
+        <div class="d-inline" id="favorites_buttons_<%= @post.id %>">
+          <%= render partial: 'favorites/favorite', locals: { post: @post} %>
         </div>
+        <p class="card-text"><%= @post.text %></p>
       </div>
     </div>
-    <div class="post-explain-box">
-      <span><%= @post.text %></span>
-    </div>
+  </div>
 
-    <table class="detail-table">
+  <div class="col-6 ml-2">
+    <table class="table table-bordered">
       <tbody>
         <tr>
-          <th class="detail-post">場所</th>
-          <td class="detail-value"><%= @post.place.name %></td>
+          <th scope="row" >場所</th>
+          <td><%= @post.place.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">トイレ</th>
-          <td class="detail-value"><%= @post.toilet.name %></td>
+          <th scope="row">トイレ</th>
+          <td><%= @post.toilet.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">水道</th>
-          <td class="detail-value"><%= @post.water.name %></td>
+          <th scope="row">水道</th>
+          <td><%= @post.water.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">ゴミ</th>
-          <td class="detail-value"><%= @post.gomi.name %></td>
+          <th scope="row">ゴミ</th>
+          <td><%= @post.gomi.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">たき火</th>
-          <td class="detail-value"><%= @post.fire.name %></td>
+          <th scope="row">たき火</th>
+          <td><%= @post.fire.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">立地</th>
-          <td class="detail-value"><%= @post.river.name %></td>
+          <th scope="row">立地</th>
+          <td><%= @post.river.name %></td>
         </tr>
         <tr>
-          <th class="detail-post">サイト料</th>
-          <td class="detail-value"><%= @post.price%></td>
+          <th scope="row">サイト料</th>
+          <td><%= @post.price%></td>
         </tr>
       </tbody>
     </table>
-    <% if user_signed_in? && current_user.id == @post.user_id %>
-      <%= link_to '編集', edit_post_path, method: :get, class: "item-red-btn" %>
-      <p class='or-text'>or</p>
-      <%= link_to '削除', post_path, method: :delete, class:'item-destroy' %>
+  </div>
+
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">レビュー</button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" rola=dialog aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="model-header">
+          <h5 class="modal-title" id="exampleModalLabel">レビュー投稿</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <%= form_with(model: [@post,@review], local: true) do |f| %>
+          <div class="form-group">
+            <label for="formGroupleInput">訪問日</label>
+            <%= f.date_field :visit_day, id:"date-info" %>
+          </div>
+          <div class="form-group">
+            <label for="formGroupleInput">コメント</label>
+            <%= f.text_area :comment, class:"form-control", id:"formGroupExampleInput", placeholder:"コメント（1,000文字まで）" ,rows:"7" ,maxlength:"1000" %>
+          </div>
+          <div class="form-group">
+            <label for="formGroupleInput">写真</label>
+            <%= f.file_field :image, id:"post-image" %>
+          </div>
+        </div>
+        <div class="modeal-footer actions">
+          <%= f.submit "投稿", class:"btn btn-primary justtify-content-end" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <% if user_signed_in? && current_user.id == @post.user_id %>
+    <button type="button" class="btn-danger d-inline"><%= link_to '編集', edit_post_path, method: :get %></button>
+    <button type="button" class="btn-danger d-inline"><%= link_to '削除', post_path, method: :delete %></button>
+  <% end %>
+
+  <h3 class = "font-weight-bold" >みんなのキャン活</h3>
+  <div class="overflow-auto col-8" style="height:40vh;">
+    <% @reviews.each do |review| %>
+      <div class = "card" >
+        <div class = "card-body" >
+          <P class="card-tittle d-inline"><%= link_to review.user.nickname, "/users/#{review.user_id}", method: :get %></P>
+          <p class="card-text d-inline"><%= review.visit_day %></P>
+          <p class="card-text"><%= review.comment %></p>
+        </div>
+      </div>
     <% end %>
-    <h3 class = "review" >みんなのキャン活</h3>
-    <ul class = "review-lists" >
-      <% @reviews.each do |review| %>
-        <li class = "review-list" >
-          <P><%= link_to review.user.nickname, "/users/#{review.user_id}", method: :get %></P>
-          <p><%= review.visit_day %></P>
-          <p><%= review.comment %></p>
-        </li>
+  </div>
+
+  <h3 class = "font-weight-bold">みんなの写真</h3>
+  <div class="row">
+    <% @reviews.each do |review| %>
+      <% if review.image.present? %>
+        <div class="img-thumbnail　d-inline-block m-1">
+          <%= image_tag review.image, :size =>'200x200'%>
+        </div>
       <% end %>
-    </ul>
-    <h3 class = "review">写真情報</h3>
-    <ul class = "review-pics" >
-      <% @reviews.each do |review| %>
-        <li class = "img-fluid" >
-          <%= review.image %>
-        </li>
-      <% end %>
-    </ul>
+    <% end %>
   </div>
 </div>
+
 <%= render "shared/footer" %>

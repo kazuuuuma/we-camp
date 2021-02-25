@@ -8,7 +8,7 @@
 
 <div class="row">
   <% @posts.each do |post| %>
-    <div class="col-12">
+    <div class="col-8">
       <div class="card">
         <div class="card-body">
           <h4 class="card-title">
@@ -19,15 +19,11 @@
           <%= image_tag post.image, class: "img-fluid" %>
         <% end %>
         <div class="card-body">
-          <p class="card-subtitle">
-            <%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %>
-          </p>
-          <div id="favo_buttons_<%= post.id %>" class="btn btn-primary">
-            <%= render partial: 'favorites/favorite', locals:{ post: post } %>
+          <h5 class="card-subtitle"><%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %></h5>
+          <div id="favorites_buttons_<%= post.id %>">
+             <%= render partial: 'favorites/favorite', locals: { post: post} %>
           </div>
-          <p class="card-text">
-            <%= post.text %>
-          </p>
+          <h5 class="card-text"><%= post.text %></h5>
         </div>
       </div>
     </div>

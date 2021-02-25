@@ -6,7 +6,7 @@
 <% end %>
 <h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
 <% if user_signed_in? && current_user.id == @user.id %>
-  <span><%= link_to "お気に入り一覧", favorites_posts_path(@user.id) %></span>
+  <span><%= link_to "お気に入り一覧", post_favorites_path(@user.id) %></span>
 <% end %>
 <div class="main">
   <div class="inner">
@@ -22,34 +22,28 @@
         </tbody>
       </table>
       <div>
-      <div class="user__post">
-        <div class='post-contents'>
-          <ul class='post-lists'>
-            <% @posts.each do |post| %>
-            <li class='list'>
+      <div class="row">
+        <% @posts.each do |post| %>
+          <div class="col-8">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">
+                  <%= link_to post.campsite, "#", method: :get %>
+                </h4>
+              </div>
               <%= link_to post_path(post.id), method: :get do %>
-              <div class='post-campsite'>
-                <%= post.campsite %>
-              </div>
-              <div class='post-img-content'>
-                <%= image_tag post.image, class: "post-img" %>
-              </div>
-              <div class='post-info'>
-                <div class='user_name'>
-                  <%= post.user.nickname %>
-                </div>
-                <div class='post_text'>
-                  <%= post.text %>
-                </div>
-                <div class='post_tag'>
-                  <%#=　"タグ"　%>
-                </div>
-              </div>
+                <%= image_tag post.image, class: "img-fluid" %>
               <% end %>
-            </li>
-            <% end %>
-          </ul>
-        </div>
+              <div class="card-body">
+                <h5 class="card-subtitle"><%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %></h5>
+                <div id="favorites_buttons_<%= post.id %>">
+                  <%= render partial: 'favorites/favorite', locals: { post: post} %>
+                </div>
+                <h5 class="card-text"><%= post.text %></h5>
+              </div>
+            </div>
+          </div>
+        <% end%>
       </div>
     </div>
   </div>

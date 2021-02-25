@@ -6,31 +6,22 @@
 <% end %>
 <%# お気に入り一覧%>
 <h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
-<div class='post-contents'>
-  <ul class='post-lists'>
-    <% @favorite_posts.each do |favorite| %>
-    <li class='list'>
-      <div class='post-campsite'>
-        <%= link_to favorite.campsite, "#", method: :get %>
-      </div>
-      <%= link_to post_path(post.id), method: :get do %>
-      <div class='post-img-content'>
-        <%= image_tag favorite_posts.image, class: "post-img" %>
-      </div>
-      <div class='post-info'>
-        <div class='user_name'>
-          <%= link_to favorite_posts.user.nickname, "/users/#{post.user_id}", method: :get %>
+<div class="row">
+  <% @favorite_posts.each do |favorite| %>
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title"><%= link_to favorite.campsite, "#", method: :get %></h4>
         </div>
-        <div class='post_text'>
-          <%= favorite_posts.text %>
+        <%= link_to post_path(@post.id), method: :get do %>
+          <%= image_tag favorite.image, class: "img-fluid" %>
+        <% end %>
+        <div class="card-body">
+          <h5 class="card-subtitle"><%= link_to favorite.user.nickname, "/users/#{@post.user_id}", method: :get %></h5>
         </div>
-        <div class='post_tag'>
-          <%#=　"タグ"　%>
-        </div>
+        <h5 class="card-text"><%= favorite.text %></h5>
       </div>
-      <% end %>
-    </li>
-    <% end %>
-  </ul>
+    </div>
+  <% end %>
 </div>
 <%= render "shared/footer" %>
