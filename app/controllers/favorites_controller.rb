@@ -3,9 +3,8 @@ class FavoritesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    #@favorite = Favorite.find_by(user_id: current_user.id, post_id: @post.id)
-    favorite_posts = Favorite.where(user_id: current_user.id).order(created_at: :desc)
-    @favorite_posts = favorite_posts
+    favorites = Favorite.where(user_id: current_user.id).pluck(:post_id)
+    @favorite_posts = Post.find(favorites)  
   end
 
   def create
