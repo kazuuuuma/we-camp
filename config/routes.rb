@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :posts do
     collection do
       get 'search'
+      get 'maps'
+      get 'prefecture'
     end
     #collection do
      # get 'favorites'

@@ -1,4 +1,7 @@
 class Post < ApplicationRecord
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed?
+
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :place
   belongs_to :toilet
@@ -17,6 +20,7 @@ class Post < ApplicationRecord
     validates :gomi_id
     validates :water_id
     validates :price, format: {with: /\A[0-9]+\z/ }
+    validates :address
   end
 
   with_options numericality: { other_than: 1 } do
@@ -35,6 +39,10 @@ class Post < ApplicationRecord
     else
       Post.all
     end
+  end
+
+  def self.prefecture(prefecture)
+    Post.where(place_id: "#{prefecture}")
   end
 
   #def favorite(user)
