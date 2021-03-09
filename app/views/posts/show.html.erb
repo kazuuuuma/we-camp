@@ -81,7 +81,7 @@
   </div>
 
   <h2>MAP</h2>
-  
+  <div id="map"></div>
   <style type="text/css">
   #map {
     height: 300px;
@@ -89,36 +89,42 @@
   }
   </style>
 
-  <script type="text/javascript">
-  //let map
+  <script>
   function initMap(){
-    //geocoder = new google.maps.Geocoder()
-
-    var map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: <%= @post.latitude %>, lng: <%= @post.longitude %>},
-      zoom: 12,
-      <%# binding.pry %>
+    //test = {lat: 40.7828, lng: -73.9653}
+    //map = new google.maps.Map(document.getElementById("map"), {
+      //center: test,
+      //zoom: 12
+    //});
+    let transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
+    let contentString = '<%= @post.campsite %>：<%= @post.address %>';
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString
     });
-    var transitLayer = new google.maps.TransitLayer();
-      transitLayer.setMap(map);
-
-      var contentString = '住所：<%= @post.address %>';
-      var infowindow = new google.maps.InfoWindow({
-          content: contentString
-    });
-    var marker = new google.maps.Marker({
-      position:{lat: <%= @post.latitude %>, lng: <%= @post.longitude %>},
-      map: map
-    });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+    let geocoder = new google.maps.Geocoder();
+    geocoder.geocode({address: '<%= @post.address %>'},function(results,status){
+      if (status == 'OK'){
+        map = new google.maps.Map(document.getElementById("map"),{
+          center: results[0].geometry.location,
+          zoom: 12
+        });
+        let marker = new google.maps.Marker({
+          position: results[0].geometry.location,
+          map: map,
+          title: contentString
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      };
+    })
   }
   </script>
 
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5IBI1uKD_cvsflrRSl-LVDhxdWjeZNFQ&callback=initMap" async defer ></script>
 
-  <div id='map'></div>
+
 
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">レビュー</button>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" rola=dialog aria-hidden="true">

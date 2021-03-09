@@ -21,6 +21,8 @@ class Post < ApplicationRecord
     validates :water_id
     validates :price, format: {with: /\A[0-9]+\z/ }
     validates :address
+    validates :latitude
+    validates :longitude
   end
 
   with_options numericality: { other_than: 1 } do

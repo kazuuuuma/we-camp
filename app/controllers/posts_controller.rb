@@ -23,7 +23,8 @@ class PostsController < ApplicationController
   def show
     @review = Review.new
     @reviews = @post.reviews.includes(:user)
-    gon.post = @post
+    #results = Geocoder.search(params[:address])
+    #@latlng = results.first.coordinates
   end
 
   def edit
@@ -75,7 +76,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image, :favorite_count, :address).merge(user_id: current_user.id)
+    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image, :favorite_count, :address, :latitude, :longitude).merge(user_id: current_user.id)
   end
 
   def set_post
