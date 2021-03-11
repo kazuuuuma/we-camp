@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :move_to_sing_in, except: [:index, :show, :search]
+  before_action :move_to_sing_in, except: [:index, :show, :search, :prefecture]
   before_action :move_to_index, only: [:edit]
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
@@ -23,6 +23,8 @@ class PostsController < ApplicationController
   def show
     @review = Review.new
     @reviews = @post.reviews.includes(:user)
+    #results = Geocoder.search(params[:address])
+    #@latlng = results.first.coordinates
   end
 
   def edit
@@ -49,9 +51,18 @@ class PostsController < ApplicationController
     @posts = Post.search(params[:keyword])
   end
 
-  def favorites
-    #@favorite = Favorite.find(params[:id])
-    @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
+  #def favorites
+   # @favorite = Favorite.find(params[:id])
+   # @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
+  #end
+
+  def prefecture
+    @place = Place.find(params[:place_id])
+    @posts = Post.prefecture(params[:place_id]).order("created_at DESC")
+  end
+
+  def maps
+    @posts = Post.includes([:user, :favorites])
   end
 
   private
@@ -69,7 +80,7 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image, :favorite_count).merge(user_id: current_user.id)
+    params.require(:post).permit(:campsite, :text, :place_id, :toilet_id, :water_id, :fire_id, :gomi_id, :river_id, :price, :image, :favorite_count, :address, :latitude, :longitude).merge(user_id: current_user.id)
   end
 
   def set_post

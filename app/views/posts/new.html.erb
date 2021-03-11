@@ -1,9 +1,31 @@
 <%= render "shared/header" %>
 <%# 投稿情報%>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="form-inline">
+      <%= form_with(url: search_posts_path, local: true, method: :get) do |form| %>
+        <%= form.text_field :keyword, placeholder: "キーワード検索", class: "form-control mr-sm-2" %>
+        <%= form.submit "検索", class: "btn btn-outline-success my-2 my-sm-0" %>
+      <% end %>
+    </form>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">都道府県検索</a>
+        <%= render "posts/prefecture" %>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link"><%= link_to "マップ検索", "#" %></span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link"><%= link_to "お気に入り一覧", post_favorites_path(current_user.id) %></span>
+      </li>
+    </ul>
+  </div>
+</nav>
 
 <h2>NEW POST</h2>
-<form>
-  <%= form_with(model: @post, local: true) do |f| %>
+<%= form_with(model: @post, local: true) do |f| %>
+  <form>
     <div class="form-group">
       <label for="post-image">Picture(必須)</label>
       <%= f.file_field :image, id:"post-image" %>
@@ -19,6 +41,10 @@
     <div class="form-group">
       <label for="post-place">場所(必須)</label>
       <%= f.collection_select(:place_id, Place.all, :id, :name, {}, {class:"select-box", id:"post-place"}) %>
+    </div>
+    <div class="form-group">
+      <label for="post-info">住所</label>
+      <%= f.text_field :address, id:"post-address", placeholder: "都道府県から" %>
     </div>
     <div class="form-group">
       <label for="post-toilet">トイレ(必須)</label>
@@ -39,16 +65,17 @@
     <div class="form-group">
       <label for="post-river">立地(必須)</label>
       <%= f.collection_select(:river_id, River.all, :id, :name, {}, {class:"select-box", id:"post-river"}) %>
-    </div>  
+    </div> 
     <div class="form-group">
       <label for="post-price">サイト料(必須)</label>
       <span class="sell-yen">¥</span>
       <%= f.text_field :price, class:"price-input", id:"post-price", placeholder:"例）1000" %>
     </div>
-    <div class="sell-btn-contents">
+    <div class="form-group row">
       <%= f.submit "POST" ,class:"btn btn-primary" %>
     </div>
-  <% end %>
-</div>
+  </form>
+<% end %>
+
 
 <%= render "shared/footer" %>

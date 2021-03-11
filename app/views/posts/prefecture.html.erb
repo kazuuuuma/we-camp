@@ -1,5 +1,6 @@
 <%= render "shared/header" %>
 
+<%# 投稿の概要 %>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form class="form-inline">
@@ -22,6 +23,10 @@
     </ul>
   </div>
 </nav>
+
+<h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
+
+<h2><%= @place.name %>にあるキャンプ場一覧</h2>
 <div class="row">
   <% @posts.each do |post| %>
     <div class="col-8">
@@ -35,7 +40,7 @@
           <%= image_tag post.image, class: "img-fluid" %>
         <% end %>
         <div class="card-body">
-          <h5 class="card-subtitle"><%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %></h5>
+          <h5 class="card-subtitle">@<%= link_to post.user.nickname, "/users/#{post.user_id}", method: :get %></h5>
           <div id="favorites_buttons_<%= post.id %>">
              <%= render partial: 'favorites/favorite', locals: { post: post} %>
           </div>
@@ -45,6 +50,4 @@
     </div>
   <% end%>
 </div>
-
-
 <%= render "shared/footer" %>

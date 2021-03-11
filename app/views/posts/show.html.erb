@@ -1,6 +1,28 @@
 <%= render "shared/header" %>
 
 <%# 投稿の概要 %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="form-inline">
+      <%= form_with(url: search_posts_path, local: true, method: :get) do |form| %>
+        <%= form.text_field :keyword, placeholder: "キーワード検索", class: "form-control mr-sm-2" %>
+        <%= form.submit "検索", class: "btn btn-outline-success my-2 my-sm-0" %>
+      <% end %>
+    </form>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">都道府県検索</a>
+        <%= render "posts/prefecture" %>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link"><%= link_to "マップ検索", "#" %></span>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link"><%= link_to "お気に入り一覧", post_favorites_path(current_user.id) %></span>
+      </li>
+    </ul>
+  </div>
+</nav>
 <h4><%= link_to "<< TOP", root_path, class: "top_bottun" %></h4>
 <div class="container">
   <div class="col-8 center">
@@ -10,7 +32,7 @@
       </div>
         <%= image_tag @post.image ,class:"img-fluid" %>
       <div class="card-body">
-        <h4 class="card-title"><%= link_to @post.user.nickname, "/users/#{@post.user_id}", method: :get %></h4>
+        <h4 class="card-title">@<%= link_to @post.user.nickname, "/users/#{@post.user_id}", method: :get %></h4>
         <div class="d-inline" id="favorites_buttons_<%= @post.id %>">
           <%= render partial: 'favorites/favorite', locals: { post: @post} %>
         </div>
@@ -25,6 +47,10 @@
         <tr>
           <th scope="row" >場所</th>
           <td><%= @post.place.name %></td>
+        </tr>
+        <tr>
+          <th scope="row">住所</th>
+          <td><%= @post.address %></td>
         </tr>
         <tr>
           <th scope="row">トイレ</th>
@@ -48,11 +74,52 @@
         </tr>
         <tr>
           <th scope="row">サイト料</th>
-          <td><%= @post.price%></td>
+          <td>¥<%= @post.price%></td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <h2>MAP</h2>
+  <div id="map"></div>
+  <style type="text/css">
+  #map {
+    height: 300px;
+    width: 70%;
+  }
+  </style>
+
+  <script>
+  function initMap(){
+    let transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
+    let contentString = '<%= @post.campsite %>：<%= @post.address %>';
+    let infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    let geocoder = new google.maps.Geocoder();
+    geocoder.geocode({address: '<%= @post.address %>'},function(results,status){
+      if (status == 'OK'){
+        map = new google.maps.Map(document.getElementById("map"),{
+          center: results[0].geometry.location,
+          zoom: 12
+        });
+        let marker = new google.maps.Marker({
+          position: results[0].geometry.location,
+          map: map,
+          title: contentString
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+      };
+    })
+  }
+  </script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5IBI1uKD_cvsflrRSl-LVDhxdWjeZNFQ&callback=initMap" async defer ></script>
+
+
 
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">レビュー</button>
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" rola=dialog aria-hidden="true">
