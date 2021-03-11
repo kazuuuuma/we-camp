@@ -91,11 +91,6 @@
 
   <script>
   function initMap(){
-    //test = {lat: 40.7828, lng: -73.9653}
-    //map = new google.maps.Map(document.getElementById("map"), {
-      //center: test,
-      //zoom: 12
-    //});
     let transitLayer = new google.maps.TransitLayer();
     transitLayer.setMap(map);
     let contentString = '<%= @post.campsite %>：<%= @post.address %>';

@@ -51,14 +51,18 @@ class PostsController < ApplicationController
     @posts = Post.search(params[:keyword])
   end
 
-  def favorites
-    #@favorite = Favorite.find(params[:id])
-    @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
-  end
+  #def favorites
+   # @favorite = Favorite.find(params[:id])
+   # @favorite_posts = current_user.favorite_posts.includes(:user).order(created_at: :desc)
+  #end
 
   def prefecture
     @place = Place.find(params[:place_id])
     @posts = Post.prefecture(params[:place_id]).order("created_at DESC")
+  end
+
+  def maps
+    @posts = Post.includes([:user, :favorites])
   end
 
   private
